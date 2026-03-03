@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-matrix create_matrix(int rows, int cols)
+matrix matrix_create(int rows, int cols)
 {
 	matrix m;
 	m.noofrows = rows;
@@ -43,7 +43,7 @@ float get_element(matrix* m, int row, int col)
 	}
 }
 
-void print_matrix(matrix* m)
+void matrix_print(matrix* m)
 {	
 	for (int i = 0; i < m->noofrows; i++)
 	{
@@ -55,8 +55,29 @@ void print_matrix(matrix* m)
 	}
 }
 
-void delete_matrix(matrix* m)
+void matrix_delete(matrix* m)
 {
 	free(m->elements);
 	m->elements = NULL;
+}
+
+matrix matrix_add(matrix* m1, matrix* m2)
+{
+	if (m1->noofrows != m2->noofrows || m1->noofcols != m2->noofcols)
+	{
+		printf("Matrix dimensions do not match\n");
+		exit(EXIT_FAILURE);
+	}
+	
+	matrix result = matrix_create(m1->noofrows, m1->noofcols);
+	
+	for (int i = 0; i < m1->noofrows; i++)
+	{
+		for (int j = 0; j < m1->noofcols; j++)
+		{
+			enter_element(&result, i, j, get_element(m1, i, j) + get_element(m2, i, j));
+		}
+	}
+	
+	return result;
 }
