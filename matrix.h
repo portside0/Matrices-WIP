@@ -12,10 +12,20 @@ typedef struct matrix
 }
 matrix;
 
-matrix create_matrix(int rows, int cols);
-void enter_element(matrix* m, int row, int col, float val);
-float get_element(matrix* m, int row, int col);
-void print_matrix(matrix* m);
-void delete_matrix(matrix* m);
+// Matrix utilities
+matrix matrix_create(int rows, int cols);
 
+void enter_element(matrix* m, int row, int col, float val);
+
+float get_element(matrix* m, int row, int col);
+
+void matrix_print(matrix* m);
+
+void matrix_delete(matrix* m);
+
+
+// Matrix operations
+matrix matrix_add(matrix* m1, matrix* m2);
+
+matrix matrix_multiply(matrix* m1, matrix* m2);
 #endif
