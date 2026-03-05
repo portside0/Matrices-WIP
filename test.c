@@ -59,8 +59,24 @@ int main()
 	add_cols(&m1, 3, 1, 0);
 	matrix_print(&m1);
 	
+	printf("Transpose\n");
+	matrix res = transpose(&m1);
+	matrix_print(&res);
+	
+	printf("Row multiply\n");
+	multiply_row(&res, 2.0, 1);
+	matrix_print(&res);
+	
+	printf("Column multiply\n");
+	multiply_col(&res, 2.0, 1);
+	matrix_print(&res);
+	
+	printf("Echelon form\n");
+	gaussian(&res);
+	matrix_print(&res);
+	
 	matrix_delete(&m1);
 	//matrix_delete(&m2);
-	//matrix_delete(&res);
+	matrix_delete(&res);
 	
 }
