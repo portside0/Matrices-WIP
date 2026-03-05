@@ -119,6 +119,22 @@ void matrix_scale(matrix* m, float k)
 	}
 }
 
+void multiply_row(matrix* m, float k, int r)
+{
+	for (int j = 0; j < m->noofcols; j++)
+	{
+		enter_element(m, r, j, k * get_element(m, r, j));
+	}
+}
+
+void multiply_col(matrix* m, float k, int c)
+{
+	for (int i = 0; i < m->noofcols; i++)
+	{
+		enter_element(m, i, c, k * get_element(m, i, c));
+	}
+}
+
 void swap_rows(matrix* m, int r1, int r2)
 {
 	float tmp;
@@ -164,5 +180,60 @@ void add_cols(matrix* m, float k, int c1, int c2)
 	{
 		float val = k * get_element(m, i, c1) + get_element(m, i, c2);
 		enter_element(m, i, c2, val);
+	}
+}
+
+matrix transpose(matrix* m)
+{
+	matrix result = matrix_create(m->noofcols, m->noofrows);
+	
+	result.noofrows = m->noofcols;
+	result.noofcols = m->noofrows;
+	
+	float tmp;
+	
+	for (int i = 0; i < m->noofcols; i++)
+	{
+		for (int j = 0; j < m->noofrows; j++)
+		{
+			enter_element(&result, i, j, get_element(m, j, i));
+		}
+	}
+	
+	return result;
+}
+
+void gaussian(matrix* m)
+{
+	for (int i = 0; i < m->noofrows; i++)
+	{
+		float pivot = get_element(m, i, i);
+		
+		if (pivot == 0)
+		{
+			for (int huh = i; huh < m->noofrows; huh++)
+			{
+				float val = get_element(m, huh, i);
+				if (val != 0)
+				{
+					swap_rows(m, huh, i);
+					pivot = val; 
+					break;
+				}
+			}
+		}
+		
+		if (pivot != 0)
+		{
+			for (int j = i + 1; j < m->noofrows; j++)
+			{
+				float k = -get_element(m, j, i)/pivot;
+			
+				for (int l = i; l < m->noofcols; l++)
+				{
+					enter_element(m, j, l, get_element(m, j, l) + k * get_element(m, i, l));
+				}
+			}
+		}
 	}
 }
